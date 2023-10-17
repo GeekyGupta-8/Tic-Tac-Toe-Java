@@ -74,74 +74,88 @@ public class main {
         char board[][] = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
         int pos[] = {1,2,3,4,5,6,7,8,9};
 
-        PrintBoard(board);
+        System.out.println("Enter your name: ");
+        String player_name = sc.nextLine();
 
         while(true){
-            if(winner.equals("Player")){
-                System.out.println("Winner is 'X' [Player].");
-                break;
-            }else if(winner.equals("Computer")){
-                System.out.println("Winner is 'O' [Computer].");
-                break;
-            }
-            System.out.println("Enter position [1-9]: ");
-            int input = sc.nextInt();
-            if(input<1 || input > 9){
-                System.out.println("Invalid position. Retry.");
-                continue;
-            }
-            if(isAvailable(pos, input) == true){
-                if(input <= 3){
-                    board[0][input-1] = 'X';
-                }else if(input >3 && input <=6){
-                    board[1][input-4] = 'X';
-                }else{
-                    board[2][input-7] = 'X';
-                }
-            }else{
-                System.out.println("Invalid position. Retry.");
-                continue;
-            }
-
-            System.out.println("Player's Turn.");
-            PrintBoard(board);
-            
-            if((check_winner(board)).equals("XXX")) {
-                winner = "Player";
-                continue;
-            }else if((check_winner(board)).equals("OOO")) {
-                winner = "Computer";
-                continue;
-            }
-        
-            while(computer_turn==true){
-                int y = rand.nextInt(9) + 1;
-                if(isAvailable(pos, y) == true || AnyPositionAvailable(pos) == false){
-                    if(y <= 3){
-                        board[0][y-1] = 'O';
-                    }else if(y >3 && y <=6){
-                        board[1][y-4] = 'O';
-                    }else{
-                        board[2][y-7] = 'O';
+            System.out.println("Do you want to play Tic-Tac-Toe ? [y/n]: ");
+            char ch = Character.toLowerCase(sc.next().charAt(0));
+            if(ch == 'y'){
+                PrintBoard(board);
+                System.out.println("You play as 'X'.");
+                while(true){
+                    if(winner.equals("Player")){
+                        System.out.println("Winner is 'X' [" + player_name + "].");
+                        System.exit(0);
+                    }else if(winner.equals("Computer")){
+                        System.out.println("Winner is 'O' [Computer].");
+                        System.exit(0);
                     }
-                    computer_turn = false;
+                    System.out.println("Enter position [1-9]: ");
+                    int input = sc.nextInt();
+                    if(input<1 || input > 9){
+                        System.out.println("Invalid position. Retry.");
+                        continue;
+                    }
+                    if(isAvailable(pos, input) == true){
+                        if(input <= 3){
+                            board[0][input-1] = 'X';
+                        }else if(input >3 && input <=6){
+                            board[1][input-4] = 'X';
+                        }else{
+                            board[2][input-7] = 'X';
+                        }
+                    }else{
+                        System.out.println("Invalid position. Retry.");
+                        continue;
+                    }
+
+                    System.out.println("Player's Turn.");
+                    PrintBoard(board);
+                    
+                    if((check_winner(board)).equals("XXX")) {
+                        winner = "Player";
+                        continue;
+                    }else if((check_winner(board)).equals("OOO")) {
+                        winner = "Computer";
+                        continue;
+                    }
+                
+                    while(computer_turn==true){
+                        int y = rand.nextInt(9) + 1;
+                        if(isAvailable(pos, y) == true || AnyPositionAvailable(pos) == false){
+                            if(y <= 3){
+                                board[0][y-1] = 'O';
+                            }else if(y >3 && y <=6){
+                                board[1][y-4] = 'O';
+                            }else{
+                                board[2][y-7] = 'O';
+                            }
+                            computer_turn = false;
+                        }
+                    }
+                    System.out.println("Computer's Turn.");
+                    computer_turn = true;
+                    PrintBoard(board);
+                    if((check_winner(board)).equals("XXX")) {
+                        winner = "Player";
+                        continue;
+                    }else if((check_winner(board)).equals("OOO")) {
+                        winner = "Computer";
+                        continue;
+                    }
+                    if(AnyPositionAvailable(pos) == false){
+                        System.out.println("Match is a draw.");
+                        break;
+                    }
                 }
-            }
-            System.out.println("Computer's Turn.");
-            computer_turn = true;
-            PrintBoard(board);
-            if((check_winner(board)).equals("XXX")) {
-                winner = "Player";
+            }else if(ch == 'n'){
+                System.exit(0);
+            }else{
+                System.out.println("Invalid choice. Retry.");
                 continue;
-            }else if((check_winner(board)).equals("OOO")) {
-                winner = "Computer";
-                continue;
-            }
-            if(AnyPositionAvailable(pos) == false){
-                System.out.println("Match is a draw.");
-                break;
-            }
             }
         }
     }
+}
 
